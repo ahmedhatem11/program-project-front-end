@@ -72,13 +72,13 @@ export class AdminPageComponent implements OnInit {
     console.log('i\'m in addnewuser');
     console.log(newUser);
 
-    // this.userService.addNewUser(newUser).then( (response) => {
-    //   // @ts-ignore
-    //   this.getAllUsers();
-    //
-    // }).catch((err) => {
-    //   console.log(err);
-    // });
+    this.userService.addNewUser(newUser).then( (response) => {
+      // @ts-ignore
+      this.getAllUsers();
+
+    }).catch((err) => {
+      console.log(err);
+    });
 
   }
 

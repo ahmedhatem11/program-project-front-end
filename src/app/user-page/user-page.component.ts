@@ -35,6 +35,10 @@ export class UserPageComponent implements OnInit {
     this.users = usersArray;
   }
 
+  setGroups(groupsArray: Group[]) {
+    this.groups = groupsArray;
+  }
+
   userUserGroups(user: UserUserView) {
     let result = '';
 
