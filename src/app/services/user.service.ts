@@ -79,6 +79,7 @@ export class UserService {
         .then(
           res => {
             localStorage.setItem('httpAuth', btoa('' + credentials.username + ':' + credentials.password));
+            localStorage.setItem('loggedInUser', credentials.username);
             resolve(res);
           },
           msg => {
@@ -300,25 +301,12 @@ export class UserService {
   editUser(username: string, name: string, email: string, address: string, phoneNumber: string) {
 
     let userData: UserData = {
-      username
+      username,
+      name,
+      email,
+      address,
+      phoneNumber
     };
-
-
-    if (!(name === '')) {
-      userData.name = name;
-    }
-
-    if (!(email === '')) {
-      userData.email = email;
-    }
-
-    if (!(address === '')) {
-      userData.address = address;
-    }
-
-    if (!(phoneNumber === '')) {
-      userData.phoneNumber = phoneNumber;
-    }
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -382,6 +370,104 @@ export class UserService {
       const apiURL = '/api/user/removeuserfromgroup/';
 
       this.http.put(apiURL, data, httpOptions)
+        .toPromise()
+        .then(
+          res => {
+            resolve(res);
+          },
+          msg => {
+            reject(msg);
+          }
+        );
+    });
+    return promise;
+  }
+
+  getCurrentUserInfo() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        Authorization: 'Basic ' + localStorage.getItem('httpAuth')
+      })
+    };
+
+    let promise = new Promise((resolve, reject) => {
+      const apiURL = '/api/user/viewmyinfo';
+      this.http.get<User>(apiURL, httpOptions)
+        .toPromise()
+        .then(
+          res => {
+            resolve(res);
+          },
+          msg => {
+            reject(msg);
+          }
+        );
+    });
+    return promise;
+  }
+
+  changePassword(body: {oldPassword: string, newPassword: string}) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        Authorization: 'Basic ' + localStorage.getItem('httpAuth')
+      })
+    };
+
+    let promise = new Promise((resolve, reject) => {
+      const apiURL = '/api/user/resetuserpassword/';
+
+      this.http.put(apiURL, body, httpOptions)
+        .toPromise()
+        .then(
+          res => {
+            resolve(res);
+          },
+          msg => {
+            reject(msg);
+          }
+        );
+    });
+    return promise;
+
+  }
+
+  forgotPassword(body: {username: string}) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+
+    let promise = new Promise((resolve, reject) => {
+      const apiURL = '/api/user/forgotpassword/';
+
+      this.http.put(apiURL, body, httpOptions)
+        .toPromise()
+        .then(
+          res => {
+            resolve(res);
+          },
+          msg => {
+            reject(msg);
+          }
+        );
+    });
+    return promise;
+  }
+
+  resetPassword(body: {username: string, oldPassword: string, newPassword: string}){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+
+    let promise = new Promise((resolve, reject) => {
+      const apiURL = '/api/user/changepasswordwithoutlogin/';
+
+      this.http.put(apiURL, body, httpOptions)
         .toPromise()
         .then(
           res => {

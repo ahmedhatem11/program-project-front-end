@@ -9,13 +9,17 @@ import {UserService} from './services/user.service';
 import { RouterModule } from '@angular/router';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { UserPageComponent } from './user-page/user-page.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     AdminPageComponent,
-    UserPageComponent
+    UserPageComponent,
+    ResetPasswordComponent,
+    ForgetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -33,6 +37,14 @@ import { UserPageComponent } from './user-page/user-page.component';
       {
         path: 'user',
         component: UserPageComponent
+      },
+      {
+        path: 'forgotpassword',
+        component: ForgetPasswordComponent
+      },
+      {
+        path: 'resetpassword',
+        component: ResetPasswordComponent
       }
     ])
   ],
